@@ -1,0 +1,382 @@
+/* styles.css */
+/* styles.css */
+
+/* General Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    text-align: center; /* Center align all text by default */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 10px;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 20px; /* Add space below heading */
+}
+
+h2 {
+    font-size: 2em;
+    color: #34495e;
+    margin-bottom: 20px; /* Add space below heading */
+}
+
+h3 {
+    font-size: 1.5em;
+    color: #7f8c8d;
+    margin-bottom: 10px; /* Add space below heading */
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #2980b9;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: left; /* Override center alignment for container content */
+}
+
+.button {
+    display: inline-block;
+    background: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    margin: 10px 0; /* Add margin for spacing */
+}
+
+.button:hover {
+    background: #2980b9;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center; /* Center align form container */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px; /* Add space between input and button */
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    text-align: left; /* Override center alignment for list items */
+    padding-left: 0; /* Remove default padding */
+}
+
+.article {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-align: left; /* Override center alignment for article content */
+}
+
+.article:hover {
+    transform: translateY(-5px);
+}
+
+.article img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .form-container {
+        flex-direction: column;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .button {
+        width: 100%;
+    }
+}
+
+/* Additional Stylish Modifications */
+body {
+    background-color: #f0f0f0;
+}
+
+.article {
+    background-color: #ffffff;
+    border-left: 5px solid #3498db;
+}
+
+.article h3 {
+    color: #34495e;
+    margin-bottom: 10px;
+}
+
+.article p {
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+
+.form-container input[type="text"] {
+    border: 2px solid #ccc;
+}
+
+.form-container button {
+    background-color: #e74c3c;
+}
+
+.form-container button:hover {
+    background-color: #c0392b;
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.article {
+    flex: 1 1 calc(33.333% - 40px);
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .article {
+        flex: 1 1 calc(50% - 40px);
+    }
+}
+
+@media (max-width: 768px) {
+    .article {
+        flex: 1 1 100%;
+    }
+}
+
+/* Center alignments for specific elements */
+.header, .search, .categories {
+    text-align: center;
+    margin-bottom: 30px; /* Add space below sections */
+}
+
+.header h1, .header h2 {
+    margin: 10px 0; /* Adjust margins */
+}
+
+.categories ul {
+    display: inline-block;
+    text-align: left; /* Ensure list items are left-aligned within centered ul */
+}
+
+.categories li {
+    display: inline-block;
+    margin: 0 10px; /* Add space between category items */
+}
+
+/*
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 10px;
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+}
+
+h2 {
+    font-size: 2em;
+    color: #34495e;
+}
+
+h3 {
+    font-size: 1.5em;
+    color: #7f8c8d;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #2980b9;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.button {
+    display: inline-block;
+    background: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background: #2980b9;
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.article {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.article:hover {
+    transform: translateY(-5px);
+}
+
+.article img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    width: 100%; /* Add this to ensure all images are of the same width */
+    height: 200px; /* Add this to ensure all images are of the same height */
+    object-fit: cover; /* Add this to maintain aspect ratio while covering the designated height */
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    .form-container {
+        flex-direction: column;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .button {
+        width: 100%;
+    }
+}
+
+/* Additional Stylish Modifications */
+body {
+    background-color: #f0f0f0;
+}
+
+.article {
+    background-color: #ffffff;
+    border-left: 5px solid #3498db;
+}
+
+.article h3 {
+    color: #34495e;
+    margin-bottom: 10px;
+}
+
+.article p {
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+
+.form-container input[type="text"] {
+    border: 2px solid #ccc;
+}
+
+.form-container button {
+    background-color: #e74c3c;
+}
+
+.form-container button:hover {
+    background-color: #c0392b;
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.article {
+    flex: 1 1 calc(33.333% - 40px);
+    box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+    .article {
+        flex: 1 1 calc(50% - 40px);
+    }
+}
+
+@media (max-width: 768px) {
+    .article {
+        flex: 1 1 100%;
+    }
+}*/
