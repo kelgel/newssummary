@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Summary</title>
+</head>
+<body>
+<h1>Submit Summary</h1>
+<form action="/submitSummary" method="post">
+    <label for="originalArticle">Original Article:</label>
+    <textarea id="originalArticle" name="originalArticle" rows="5" cols="50"></textarea>
+    <br>
+    <label for="submittedSummary">Submitted Summary:</label>
+    <textarea id="submittedSummary" name="submittedSummary" rows="5" cols="50"></textarea>
+    <br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

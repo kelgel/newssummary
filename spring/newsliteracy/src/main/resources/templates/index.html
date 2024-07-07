@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .news-article {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .login-button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>News Literacy</h1>
+    <div th:if="${username == null}">
+        <a href="/login" class="login-button">Login</a>
+        <a href="/register" class="login-button">Register</a>
+    </div>
+    <div th:if="${username != null}">
+        <p>Welcome, <span th:text="${username}"></span>!</p>
+        <a href="/logout" class="login-button">Logout</a>
+    </div>
+    <div th:each="article, iterStat : ${news.articles}">
+        <div class="news-article">
+            <h2 th:text="${article.title}"></h2>
+            <p th:text="${article.description}"></p>
+            <a th:href="@{/article/{index}(index=${iterStat.index})}" th:text="'Read more'"></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

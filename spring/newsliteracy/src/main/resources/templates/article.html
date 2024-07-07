@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Article Details</title>
+</head>
+<body>
+<h1 th:text="${article['title']}">Title</h1>
+<h2 th:text="${article['author']}">Author</h2>
+<p th:text="${article['publishedAt']}">Published At</p>
+<p th:text="${article['content']}">Content</p>
+<p>
+    <a th:href="${article['url']}" target="_blank">Read Full Article</a>
+</p>
+<form action="/summarize" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <textarea name="summary" placeholder="Write your summary here"></textarea>
+    <input type="hidden" name="article" th:value="${article['content']}"/>
+    <button type="submit">Submit</button>
+</form>
+<a href="/">Back to Home</a>
+<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+</body>
+</html>

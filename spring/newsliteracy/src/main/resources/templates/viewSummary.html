@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Summary</title>
+</head>
+<body>
+<h1>Summary Details</h1>
+<p><strong>Submitted Summary:</strong></p>
+<p th:text="${summary.submittedSummary}"></p>
+<p><strong>Original Article:</strong></p>
+<p th:text="${summary.originalArticle}"></p>
+<a href="/mySummaries">Back to My Summaries</a>
+</body>
+</html>

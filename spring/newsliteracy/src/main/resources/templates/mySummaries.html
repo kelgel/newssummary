@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Summaries</title>
+</head>
+<body>
+<h1>My Summaries</h1>
+<div th:if="${summaries}">
+    <ul>
+        <li th:each="summary : ${summaries}">
+            <h3>Original Article</h3>
+            <p th:text="${summary.originalArticle}"></p>
+            <h3>Submitted Summary</h3>
+            <p th:text="${summary.submittedSummary}"></p>
+        </li>
+    </ul>
+</div>
+<div th:if="${!summaries}">
+    <p>No summaries found.</p>
+</div>
+</body>
+</html>

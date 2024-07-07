@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Summary Evaluation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 700px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .summary, .evaluation, .submitted-summary {
+            margin-bottom: 20px;
+        }
+        .summary p, .evaluation p, .submitted-summary p {
+            line-height: 1.6;
+            color: #555;
+        }
+        .evaluation-explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .evaluation-explanation p {
+            margin: 10px 0;
+        }
+        .back-home {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .back-home:hover {
+            background-color: #0056b3;
+        }
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .score-label {
+            font-weight: bold;
+            color: #333;
+        }
+        .score-value {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Summary Evaluation</h1>
+    <div class="summary">
+        <h2>Generated Summary</h2>
+        <p th:text="${generatedSummary}"></p>
+    </div>
+    <div class="submitted-summary">
+        <h2>Your Submitted Summary</h2>
+        <p th:text="${submittedSummary}"></p>
+    </div>
+    <div class="evaluation">
+        <h2>Your Summary Evaluation</h2>
+        <div class="evaluation-explanation">
+            <div class="score-container">
+                <span class="score-label">Accuracy:</span>
+                <span class="score-value" th:text="${scores.Accuracy} + '/25'"></span>
+            </div>
+            <p th:text="${accuracyExplanation}"></p>
+            <div class="score-container">
+                <span class="score-label">Brevity:</span>
+                <span class="score-value" th:text="${scores.Brevity} + '/25'"></span>
+            </div>
+            <p th:text="${brevityExplanation}"></p>
+            <div class="score-container">
+                <span class="score-label">Clarity:</span>
+                <span class="score-value" th:text="${scores.Clarity} + '/25'"></span>
+            </div>
+            <p th:text="${clarityExplanation}"></p>
+            <div class="score-container">
+                <span class="score-label">Comprehensiveness:</span>
+                <span class="score-value" th:text="${scores.Comprehensiveness} + '/25'"></span>
+            </div>
+            <p th:text="${comprehensivenessExplanation}"></p>
+            <div class="score-container">
+                <span class="score-label">Total Score:</span>
+                <span class="score-value" th:text="${scores.Accuracy + scores.Brevity + scores.Clarity + scores.Comprehensiveness} + '/100'"></span>
+            </div>
+        </div>
+    </div>
+    <a href="/" class="back-home">Back to Home</a>
+    <p th:if="${error}" th:text="${error}" style="color:red; text-align: center;"></p>
+</div>
+</body>
+</html>
