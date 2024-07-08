@@ -29,6 +29,7 @@ public class NewsController {
             model.addAttribute("news", news.toMap());
         } catch (Exception e) {
             model.addAttribute("error", "Failed to fetch news: " + e.getMessage());
+            e.printStackTrace(); // 에러 메시지를 로그로 출력
         }
         return "index";
     }
@@ -40,6 +41,7 @@ public class NewsController {
             model.addAttribute("news", news.toMap());
         } catch (Exception e) {
             model.addAttribute("error", "Failed to fetch news: " + e.getMessage());
+            e.printStackTrace(); // 에러 메시지를 로그로 출력
         }
         return "index";
     }
@@ -55,6 +57,7 @@ public class NewsController {
             }
         } catch (Exception e) {
             model.addAttribute("error", "Failed to fetch article: " + e.getMessage());
+            e.printStackTrace(); // 에러 메시지를 로그로 출력
         }
         return "article";
     }
@@ -73,6 +76,7 @@ public class NewsController {
             model.addAttribute("comprehensivenessExplanation", evaluation.get("ComprehensivenessExplanation"));
         } catch (Exception e) {
             model.addAttribute("error", "Failed to summarize or evaluate: " + e.getMessage());
+            e.printStackTrace(); // 에러 메시지를 로그로 출력
         }
         return "result";
     }

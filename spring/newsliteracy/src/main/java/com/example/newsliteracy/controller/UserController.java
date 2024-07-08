@@ -3,7 +3,6 @@ package com.example.newsliteracy.controller;
 import com.example.newsliteracy.model.User;
 import com.example.newsliteracy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
