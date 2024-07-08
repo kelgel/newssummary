@@ -15,6 +15,9 @@ public class Summary {
     @Column(nullable = false)
     private String originalArticle;
 
+    @Column(nullable = false)
+    private String originalUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -42,6 +45,14 @@ public class Summary {
 
     public void setOriginalArticle(String originalArticle) {
         this.originalArticle = originalArticle;
+    }
+
+    public String getOriginalUrl() {
+        return originalUrl;
+    }
+
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
     }
 
     public User getUser() {

@@ -1,8 +1,15 @@
 package com.example.newsliteracy.controller;
 
+import com.example.newsliteracy.model.Summary;
+import com.example.newsliteracy.model.User;
 import com.example.newsliteracy.service.NewsService;
 import com.example.newsliteracy.service.OpenAIService;
+import com.example.newsliteracy.service.SummaryService;
+import com.example.newsliteracy.service.UserService;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +23,12 @@ import java.util.Map;
 public class NewsController {
     private final NewsService newsService;
     private final OpenAIService openAIService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private SummaryService summaryService;
 
     public NewsController(NewsService newsService, OpenAIService openAIService) {
         this.newsService = newsService;
@@ -63,12 +76,31 @@ public class NewsController {
     }
 
     @PostMapping("/summarize")
-    public String summarizeArticle(@RequestParam("article") String article, @RequestParam("summary") String summary, Model model) {
+    public String summarizeArticle(@RequestParam("article") String articleContent,
+                                   @RequestParam("summary") String summaryContent,
+                                   @RequestParam("url") String articleUrl,
+                                   Model model) {
         try {
-            String generatedSummary = openAIService.generateSummary(article);
-            Map<String, Object> evaluation = openAIService.evaluateSummary(article, summary);
+            // Get the current authenticated user
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.toString();
+            User user = userService.findByUsername(username);
+
+            // Generate the summary
+            String generatedSummary = openAIService.generateSummary(articleContent);
+            Map<String, Object> evaluation = openAIService.evaluateSummary(articleContent, summaryContent);
+
+            // Save the summary and original article URL
+            Summary summary = new Summary();
+            summary.setOriginalArticle(articleContent);
+            summary.setSubmittedSummary(summaryContent);
+            summary.setOriginalUrl(articleUrl);
+            summary.setUser(user);
+            summaryService.saveSummary(summary);
+
+            // Add attributes for the result page
             model.addAttribute("generatedSummary", generatedSummary);
-            model.addAttribute("submittedSummary", summary);  // 추가된 부분
+            model.addAttribute("submittedSummary", summaryContent);
             model.addAttribute("scores", evaluation);
             model.addAttribute("accuracyExplanation", evaluation.get("AccuracyExplanation"));
             model.addAttribute("brevityExplanation", evaluation.get("BrevityExplanation"));

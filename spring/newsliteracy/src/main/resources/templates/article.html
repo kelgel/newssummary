@@ -15,6 +15,7 @@
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <textarea name="summary" placeholder="Write your summary here"></textarea>
     <input type="hidden" name="article" th:value="${article['content']}"/>
+    <input type="hidden" name="url" th:value="${article['url']}"/>
     <button type="submit">Submit</button>
 </form>
 <a href="/">Back to Home</a>
