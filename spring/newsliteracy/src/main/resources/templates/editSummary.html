@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Summary</title>
+</head>
+<body>
+<h1>Edit Summary</h1>
+<form th:action="@{/summary/edit}" method="post">
+    <input type="hidden" name="id" th:value="${summary.id}" />
+    <input type="hidden" name="originalArticle" th:value="${summary.originalArticle}" />
+    <input type="hidden" name="originalUrl" th:value="${summary.originalUrl}" />
+    <label for="submittedSummary">Submitted Summary:</label>
+    <textarea id="submittedSummary" name="submittedSummary" th:text="${summary.submittedSummary}"></textarea>
+    <button type="submit">Save</button>
+</form>
+<a href="/summaries">Back to Summaries</a>
+</body>
+</html>

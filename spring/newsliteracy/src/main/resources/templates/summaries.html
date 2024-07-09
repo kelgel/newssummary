@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Summaries</title>
+</head>
+<body>
+<h1>My Summaries</h1>
+<div th:if="${error}" th:text="${error}"></div>
+<div th:each="summary : ${summaries}">
+    <p>Summary: <span th:text="${summary.submittedSummary}"></span></p>
+    <p>Original Article: <a th:href="${summary.originalUrl}" th:text="${summary.originalUrl}"></a></p> <!-- Display original URL -->
+    <form th:action="@{/summary/edit}" method="get">
+        <input type="hidden" name="id" th:value="${summary.id}" />
+        <button type="submit">Edit</button>
+    </form>
+    <form th:action="@{/summary/delete}" method="post">
+        <input type="hidden" name="id" th:value="${summary.id}" />
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit">Delete</button>
+    </form>
+</div>
+<a href="/">Back to Home</a>
+</body>
+</html>
