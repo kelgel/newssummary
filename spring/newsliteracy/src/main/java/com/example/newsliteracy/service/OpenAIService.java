@@ -101,33 +101,36 @@ public class OpenAIService {
 
     private Map<String, Object> parseEvaluation(String content) {
         Map<String, Object> evaluation = new HashMap<>();
-        String[] lines = content.split("\n");
-        for (String line : lines) {
-            if (line.toLowerCase().contains("accuracy")) {
-                evaluation.put("Accuracy", extractScore(line));
-                evaluation.put("AccuracyExplanation", line.substring(line.indexOf(":") + 1).trim());
-            } else if (line.toLowerCase().contains("brevity")) {
-                evaluation.put("Brevity", extractScore(line));
-                evaluation.put("BrevityExplanation", line.substring(line.indexOf(":") + 1).trim());
-            } else if (line.toLowerCase().contains("clarity")) {
-                evaluation.put("Clarity", extractScore(line));
-                evaluation.put("ClarityExplanation", line.substring(line.indexOf(":") + 1).trim());
-            } else if (line.toLowerCase().contains("comprehensiveness")) {
-                evaluation.put("Comprehensiveness", extractScore(line));
-                evaluation.put("ComprehensivenessExplanation", line.substring(line.indexOf(":") + 1).trim());
+        String[] sections = content.split("\n\n");
+
+        for (String section : sections) {
+            if (section.toLowerCase().contains("accuracy")) {
+                evaluation.put("Accuracy", extractScore(section));
+                evaluation.put("AccuracyExplanation", section.substring(section.indexOf(":") + 1).trim());
+            } else if (section.toLowerCase().contains("brevity")) {
+                evaluation.put("Brevity", extractScore(section));
+                evaluation.put("BrevityExplanation", section.substring(section.indexOf(":") + 1).trim());
+            } else if (section.toLowerCase().contains("clarity")) {
+                evaluation.put("Clarity", extractScore(section));
+                evaluation.put("ClarityExplanation", section.substring(section.indexOf(":") + 1).trim());
+            } else if (section.toLowerCase().contains("comprehensiveness")) {
+                evaluation.put("Comprehensiveness", extractScore(section));
+                evaluation.put("ComprehensivenessExplanation", section.substring(section.indexOf(":") + 1).trim());
             }
         }
         return evaluation;
     }
 
-    private Integer extractScore(String line) {
-        String[] parts = line.split(":");
-        if (parts.length > 1) {
-            String scorePart = parts[1].replaceAll("[^0-9]", "").trim();
-            try {
-                return Integer.parseInt(scorePart);
-            } catch (NumberFormatException e) {
-                return 0;
+    private Integer extractScore(String section) {
+        String[] lines = section.split("\n");
+        for (String line : lines) {
+            if (line.contains(":") && line.contains("/25")) {
+                String scorePart = line.substring(line.indexOf("(") + 1, line.indexOf("/"));
+                try {
+                    return Integer.parseInt(scorePart.trim());
+                } catch (NumberFormatException e) {
+                    return 0;
+                }
             }
         }
         return 0;

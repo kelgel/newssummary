@@ -91,27 +91,27 @@
         <div class="evaluation-explanation">
             <div class="score-container">
                 <span class="score-label">Accuracy:</span>
-                <span class="score-value" th:text="${scores.Accuracy} + '/25'"></span>
+                <span class="score-value" th:text="${scores['Accuracy']} + '/25'"></span>
             </div>
             <p th:text="${accuracyExplanation}"></p>
             <div class="score-container">
                 <span class="score-label">Brevity:</span>
-                <span class="score-value" th:text="${scores.Brevity} + '/25'"></span>
+                <span class="score-value" th:text="${scores['Brevity']} + '/25'"></span>
             </div>
             <p th:text="${brevityExplanation}"></p>
             <div class="score-container">
                 <span class="score-label">Clarity:</span>
-                <span class="score-value" th:text="${scores.Clarity} + '/25'"></span>
+                <span class="score-value" th:text="${scores['Clarity']} + '/25'"></span>
             </div>
             <p th:text="${clarityExplanation}"></p>
             <div class="score-container">
                 <span class="score-label">Comprehensiveness:</span>
-                <span class="score-value" th:text="${scores.Comprehensiveness} + '/25'"></span>
+                <span class="score-value" th:text="${scores['Comprehensiveness']} + '/25'"></span>
             </div>
             <p th:text="${comprehensivenessExplanation}"></p>
             <div class="score-container">
                 <span class="score-label">Total Score:</span>
-                <span class="score-value" th:text="${scores.Accuracy + scores.Brevity + scores.Clarity + scores.Comprehensiveness} + '/100'"></span>
+                <span class="score-value" th:text="${scores['Accuracy'] + scores['Brevity'] + scores['Clarity'] + scores['Comprehensiveness']} + '/100'"></span>
             </div>
         </div>
     </div>
