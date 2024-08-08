@@ -104,16 +104,47 @@ public class SummaryController {
     public String updateSummary(@RequestParam Long id,
                                 @RequestParam String submittedSummary,
                                 Model model) {
-        Summary summary = summaryService.findById(id);
-        if (summary != null) {
-            summary.setSubmittedSummary(submittedSummary);
-            summaryService.saveSummary(summary);
-            return "redirect:/summaries";
-        } else {
-            model.addAttribute("error", "Summary not found");
+        try {
+            Summary summary = summaryService.findById(id);
+            if (summary != null) {
+                summary.setSubmittedSummary(submittedSummary);
+
+                // Re-evaluate the summary after editing
+                String originalArticle = summary.getOriginalArticle();
+                Map<String, Object> evaluation = openAIService.evaluateSummary(originalArticle, submittedSummary);
+
+                // Calculate total score
+                int totalScore = (int) evaluation.get("Accuracy") + (int) evaluation.get("Brevity") + (int) evaluation.get("Clarity") + (int) evaluation.get("Comprehensiveness");
+
+                // Update the summary with new scores
+                summary.setAccuracy((int) evaluation.get("Accuracy"));
+                summary.setBrevity((int) evaluation.get("Brevity"));
+                summary.setClarity((int) evaluation.get("Clarity"));
+                summary.setComprehensiveness((int) evaluation.get("Comprehensiveness"));
+                summary.setTotalScore(totalScore);
+                summaryService.saveSummary(summary);
+
+                // Add attributes for the result page
+                model.addAttribute("generatedSummary", originalArticle);
+                model.addAttribute("submittedSummary", submittedSummary);
+                model.addAttribute("scores", evaluation);
+                model.addAttribute("accuracyExplanation", evaluation.get("AccuracyExplanation"));
+                model.addAttribute("brevityExplanation", evaluation.get("BrevityExplanation"));
+                model.addAttribute("clarityExplanation", evaluation.get("ClarityExplanation"));
+                model.addAttribute("comprehensivenessExplanation", evaluation.get("ComprehensivenessExplanation"));
+
+                return "result"; // Redirect to the result page after editing
+            } else {
+                model.addAttribute("error", "Summary not found");
+                return "editSummary";
+            }
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to edit or evaluate: " + e.getMessage());
+            e.printStackTrace(); // 에러 메시지를 로그로 출력
             return "editSummary";
         }
     }
+
 
     @PostMapping("/summary/delete")
     public String deleteSummary(@RequestParam Long id, Principal principal, Model model) {
