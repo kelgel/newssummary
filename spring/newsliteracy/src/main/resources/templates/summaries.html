@@ -2,23 +2,78 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My Summaries</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 700px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .summary {
+            margin-bottom: 20px;
+        }
+        .summary p {
+            line-height: 1.6;
+            color: #555;
+        }
+        .summary-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .summary-actions button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .edit-button {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        .delete-button {
+            background-color: #DC3545;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-<h1>My Summaries</h1>
-<div th:if="${error}" th:text="${error}"></div>
-<div th:each="summary : ${summaries}">
-    <p>Summary: <span th:text="${summary.submittedSummary}"></span></p>
-    <p>Original Article: <a th:href="${summary.originalUrl}" th:text="${summary.originalUrl}"></a></p> <!-- Display original URL -->
-    <form th:action="@{/summary/edit}" method="get">
-        <input type="hidden" name="id" th:value="${summary.id}" />
-        <button type="submit">Edit</button>
-    </form>
-    <form th:action="@{/summary/delete}" method="post">
-        <input type="hidden" name="id" th:value="${summary.id}" />
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <button type="submit">Delete</button>
-    </form>
+<div class="container">
+    <h1>My Summaries</h1>
+    <div th:each="summary : ${summaries}" class="summary">
+        <p><strong>Original Article:</strong> <span th:text="${summary.originalArticle}"></span></p>
+        <p><strong>Submitted Summary:</strong> <span th:text="${summary.submittedSummary}"></span></p>
+        <p><strong>Original URL:</strong> <a th:href="${summary.originalUrl}" th:text="${summary.originalUrl}"></a></p>
+        <div class="summary-actions">
+            <form th:action="@{/summary/edit}" method="get">
+                <input type="hidden" name="id" th:value="${summary.id}"/>
+                <button type="submit" class="edit-button">Edit</button>
+            </form>
+            <form th:action="@{/summary/delete}" method="post">
+                <input type="hidden" name="id" th:value="${summary.id}"/>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="delete-button">Delete</button>
+            </form>
+        </div>
+    </div>
 </div>
-<a href="/">Back to Home</a>
 </body>
 </html>

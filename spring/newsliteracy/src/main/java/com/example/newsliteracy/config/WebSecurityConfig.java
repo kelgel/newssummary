@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                         .permitAll()
                 )
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/register", "/login", "/h2-console/**")
+                        .ignoringRequestMatchers("/register", "/login", "/h2-console/**", "/summary/delete")
                 )
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.sameOrigin())

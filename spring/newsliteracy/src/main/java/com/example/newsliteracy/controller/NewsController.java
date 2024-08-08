@@ -96,6 +96,13 @@ public class NewsController {
             summary.setSubmittedSummary(summaryContent);
             summary.setOriginalUrl(articleUrl);
             summary.setUser(user);
+
+            // Set evaluation scores
+            summary.setAccuracy((int) evaluation.get("Accuracy"));
+            summary.setBrevity((int) evaluation.get("Brevity"));
+            summary.setClarity((int) evaluation.get("Clarity"));
+            summary.setComprehensiveness((int) evaluation.get("Comprehensiveness"));
+
             summaryService.saveSummary(summary);
 
             // Add attributes for the result page
@@ -112,4 +119,5 @@ public class NewsController {
         }
         return "result";
     }
+
 }

@@ -18,6 +18,21 @@ public class Summary {
     @Column(nullable = false)
     private String originalUrl;
 
+    @Column(nullable = false)
+    private int accuracy;
+
+    @Column(nullable = false)
+    private int brevity;
+
+    @Column(nullable = false)
+    private int clarity;
+
+    @Column(nullable = false)
+    private int comprehensiveness;
+
+    @Column(nullable = false)
+    private int totalScore;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -53,6 +68,46 @@ public class Summary {
 
     public void setOriginalUrl(String originalUrl) {
         this.originalUrl = originalUrl;
+    }
+
+    public int getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(int accuracy) {
+        this.accuracy = accuracy;
+    }
+
+    public int getBrevity() {
+        return brevity;
+    }
+
+    public void setBrevity(int brevity) {
+        this.brevity = brevity;
+    }
+
+    public int getClarity() {
+        return clarity;
+    }
+
+    public void setClarity(int clarity) {
+        this.clarity = clarity;
+    }
+
+    public int getComprehensiveness() {
+        return comprehensiveness;
+    }
+
+    public void setComprehensiveness(int comprehensiveness) {
+        this.comprehensiveness = comprehensiveness;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
     }
 
     public User getUser() {

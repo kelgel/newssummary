@@ -2,10 +2,12 @@ package com.example.newsliteracy.controller;
 
 import com.example.newsliteracy.model.Summary;
 import com.example.newsliteracy.model.User;
-import com.example.newsliteracy.service.OpenAIService;
 import com.example.newsliteracy.service.SummaryService;
 import com.example.newsliteracy.service.UserService;
+import com.example.newsliteracy.service.OpenAIService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Controller
 public class SummaryController {
+
+    private static final Logger logger = Logger.getLogger(SummaryController.class.getName());
 
     @Autowired
     private SummaryService summaryService;
@@ -29,32 +34,48 @@ public class SummaryController {
     private OpenAIService openAIService;
 
     @PostMapping("/submitSummary")
-    public String submitSummary(
-            @RequestParam("originalArticle") String originalArticle,
-            @RequestParam("submittedSummary") String submittedSummary,
-            @RequestParam("originalUrl") String originalUrl,
-            Principal principal,
-            Model model) {
-        String username = principal.getName();
-        User user = userService.findByUsername(username);
-        Summary summary = new Summary();
-        summary.setOriginalArticle(originalArticle);
-        summary.setSubmittedSummary(submittedSummary);
-        summary.setOriginalUrl(originalUrl);
-        summary.setUser(user);
-        summaryService.saveSummary(summary);
+    public String submitSummary(@RequestParam("article") String articleContent,
+                                @RequestParam("summary") String summaryContent,
+                                @RequestParam("url") String articleUrl,
+                                Model model) {
+        try {
+            // Get the current authenticated user
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String username = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : principal.toString();
+            User user = userService.findByUsername(username);
 
-        // Generate and evaluate summary
-        String generatedSummary = openAIService.generateSummary(originalArticle);
-        Map<String, Object> evaluation = openAIService.evaluateSummary(originalArticle, submittedSummary);
+            // Generate the summary
+            String generatedSummary = openAIService.generateSummary(articleContent);
+            Map<String, Object> evaluation = openAIService.evaluateSummary(articleContent, summaryContent);
 
-        model.addAttribute("generatedSummary", generatedSummary);
-        model.addAttribute("submittedSummary", submittedSummary);
-        model.addAttribute("scores", evaluation);
-        model.addAttribute("accuracyExplanation", evaluation.get("AccuracyExplanation"));
-        model.addAttribute("brevityExplanation", evaluation.get("BrevityExplanation"));
-        model.addAttribute("clarityExplanation", evaluation.get("ClarityExplanation"));
-        model.addAttribute("comprehensivenessExplanation", evaluation.get("ComprehensivenessExplanation"));
+            // Calculate total score
+            int totalScore = (int) evaluation.get("Accuracy") + (int) evaluation.get("Brevity") + (int) evaluation.get("Clarity") + (int) evaluation.get("Comprehensiveness");
+
+            // Save the summary and original article URL
+            Summary summary = new Summary();
+            summary.setOriginalArticle(articleContent);
+            summary.setSubmittedSummary(summaryContent);
+            summary.setOriginalUrl(articleUrl);
+            summary.setUser(user);
+            summary.setAccuracy((int) evaluation.get("Accuracy"));
+            summary.setBrevity((int) evaluation.get("Brevity"));
+            summary.setClarity((int) evaluation.get("Clarity"));
+            summary.setComprehensiveness((int) evaluation.get("Comprehensiveness"));
+            summary.setTotalScore(totalScore);
+            summaryService.saveSummary(summary);
+
+            // Add attributes for the result page
+            model.addAttribute("generatedSummary", generatedSummary);
+            model.addAttribute("submittedSummary", summaryContent);
+            model.addAttribute("scores", evaluation);
+            model.addAttribute("accuracyExplanation", evaluation.get("AccuracyExplanation"));
+            model.addAttribute("brevityExplanation", evaluation.get("BrevityExplanation"));
+            model.addAttribute("clarityExplanation", evaluation.get("ClarityExplanation"));
+            model.addAttribute("comprehensivenessExplanation", evaluation.get("ComprehensivenessExplanation"));
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to summarize or evaluate: " + e.getMessage());
+            e.printStackTrace(); // 에러 메시지를 로그로 출력
+        }
         return "result";
     }
 
@@ -87,20 +108,7 @@ public class SummaryController {
         if (summary != null) {
             summary.setSubmittedSummary(submittedSummary);
             summaryService.saveSummary(summary);
-
-            // Re-evaluate the edited summary
-            String originalArticle = summary.getOriginalArticle(); // Correct method name
-            String generatedSummary = openAIService.generateSummary(originalArticle);
-            Map<String, Object> evaluation = openAIService.evaluateSummary(originalArticle, submittedSummary);
-
-            model.addAttribute("generatedSummary", generatedSummary);
-            model.addAttribute("submittedSummary", submittedSummary);
-            model.addAttribute("scores", evaluation);
-            model.addAttribute("accuracyExplanation", evaluation.get("AccuracyExplanation"));
-            model.addAttribute("brevityExplanation", evaluation.get("BrevityExplanation"));
-            model.addAttribute("clarityExplanation", evaluation.get("ClarityExplanation"));
-            model.addAttribute("comprehensivenessExplanation", evaluation.get("ComprehensivenessExplanation"));
-            return "result";
+            return "redirect:/summaries";
         } else {
             model.addAttribute("error", "Summary not found");
             return "editSummary";
@@ -108,8 +116,31 @@ public class SummaryController {
     }
 
     @PostMapping("/summary/delete")
-    public String deleteSummary(@RequestParam Long id) {
-        summaryService.deleteById(id);
+    public String deleteSummary(@RequestParam Long id, Principal principal, Model model) {
+        try {
+            Summary summary = summaryService.findById(id);
+            if (summary != null) {
+                Object userPrincipal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                String username = userPrincipal instanceof UserDetails ? ((UserDetails) userPrincipal).getUsername() : userPrincipal.toString();
+                User user = userService.findByUsername(username);
+                if (summary.getUser().equals(user)) {
+                    // Delete associated records in summary_score_history
+                    summaryService.deleteSummaryScoreHistoryBySummaryId(id);
+                    summaryService.deleteById(id);
+                    logger.info("Deleted summary with ID: " + id);
+                } else {
+                    model.addAttribute("error", "You do not have permission to delete this summary.");
+                    logger.warning("User does not have permission to delete summary with ID: " + id);
+                }
+            } else {
+                model.addAttribute("error", "Summary not found.");
+                logger.warning("Summary not found with ID: " + id);
+            }
+        } catch (Exception e) {
+            model.addAttribute("error", "Failed to delete summary: " + e.getMessage());
+            e.printStackTrace();
+            logger.severe("Failed to delete summary with ID: " + id + ". Error: " + e.getMessage());
+        }
         return "redirect:/summaries";
     }
 }
