@@ -109,9 +109,9 @@ public class SummaryController {
             if (summary != null) {
                 summary.setSubmittedSummary(submittedSummary);
 
-                // Re-evaluate the summary after editing
-                String originalArticle = summary.getOriginalArticle();
-                Map<String, Object> evaluation = openAIService.evaluateSummary(originalArticle, submittedSummary);
+                // Regenerate the summary using OpenAI service
+                String generatedSummary = openAIService.generateSummary(summary.getOriginalArticle());
+                Map<String, Object> evaluation = openAIService.evaluateSummary(summary.getOriginalArticle(), submittedSummary);
 
                 // Calculate total score
                 int totalScore = (int) evaluation.get("Accuracy") + (int) evaluation.get("Brevity") + (int) evaluation.get("Clarity") + (int) evaluation.get("Comprehensiveness");
@@ -125,7 +125,7 @@ public class SummaryController {
                 summaryService.saveSummary(summary);
 
                 // Add attributes for the result page
-                model.addAttribute("generatedSummary", originalArticle);
+                model.addAttribute("generatedSummary", generatedSummary);
                 model.addAttribute("submittedSummary", submittedSummary);
                 model.addAttribute("scores", evaluation);
                 model.addAttribute("accuracyExplanation", evaluation.get("AccuracyExplanation"));

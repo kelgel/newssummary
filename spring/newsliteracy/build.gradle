@@ -29,6 +29,7 @@ dependencies {
 	implementation 'org.hibernate.validator:hibernate-validator'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.json:json:20210307'
+	implementation 'org.jsoup:jsoup:1.15.3'
 	implementation 'com.h2database:h2'
 	implementation 'org.springframework.session:spring-session-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'

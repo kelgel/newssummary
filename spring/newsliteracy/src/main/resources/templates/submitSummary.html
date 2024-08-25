@@ -3,17 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Submit Summary</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<h1>Submit Summary</h1>
-<form action="/submitSummary" method="post">
-    <label for="originalArticle">Original Article:</label>
-    <textarea id="originalArticle" name="originalArticle" rows="5" cols="50"></textarea>
-    <br>
-    <label for="submittedSummary">Submitted Summary:</label>
-    <textarea id="submittedSummary" name="submittedSummary" rows="5" cols="50"></textarea>
-    <br>
-    <button type="submit">Submit</button>
-</form>
+<div class="container">
+    <h1>Submit Summary</h1>
+    <form action="/submitSummary" method="post">
+        <label for="originalArticle">Original Article:</label>
+        <textarea id="originalArticle" name="originalArticle" rows="5"></textarea>
+
+        <label for="submittedSummary">Submitted Summary:</label>
+        <textarea id="submittedSummary" name="submittedSummary" rows="5"></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
 </body>
 </html>

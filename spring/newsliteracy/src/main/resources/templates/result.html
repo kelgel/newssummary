@@ -12,48 +12,56 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
         .container {
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 700px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
         }
         h1 {
             color: #333;
             text-align: center;
+            width: 100%;
             margin-bottom: 20px;
         }
-        .summary, .evaluation, .submitted-summary {
+        .section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+        }
+        .summary, .submitted-summary, .evaluation {
             margin-bottom: 20px;
         }
-        .summary p, .evaluation p, .submitted-summary p {
+        .summary p, .submitted-summary p, .evaluation p {
             line-height: 1.6;
             color: #555;
         }
         .evaluation-explanation {
-            margin-top: 20px;
             padding: 15px;
             background-color: #f8f9fa;
             border: 1px solid #ddd;
             border-radius: 8px;
+            margin-top: 20px;
         }
         .evaluation-explanation p {
             margin: 10px 0;
         }
         .back-home {
-            display: block;
-            width: 100%;
-            text-align: center;
+            display: inline-block;
+            margin-top: 20px;
             padding: 10px 20px;
-            color: #fff;
             background-color: #007BFF;
+            color: #fff;
             text-decoration: none;
             border-radius: 5px;
-            margin-top: 20px;
+            text-align: center;
         }
         .back-home:hover {
             background-color: #0056b3;
@@ -89,105 +97,119 @@
             color: white;
             border-radius: 5px 0 0 5px;
         }
+        .chart-container {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .chart {
+            margin-top: 20px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Summary Evaluation</h1>
-    <div class="summary">
-        <h2>Generated Summary</h2>
-        <p th:text="${generatedSummary}"></p>
+
+    <div class="section">
+        <div class="summary">
+            <h2>AI Generated Summary</h2>
+            <p th:text="${generatedSummary}"></p>
+        </div>
+        <div class="submitted-summary">
+            <h2>Your Submitted Summary</h2>
+            <p th:text="${submittedSummary}"></p>
+        </div>
+        <a href="/" class="back-home">Back to Home</a>
     </div>
-    <div class="submitted-summary">
-        <h2>Your Submitted Summary</h2>
-        <p th:text="${submittedSummary}"></p>
-    </div>
-    <div class="evaluation">
-        <h2>Your Summary Evaluation</h2>
-        <div class="evaluation-explanation">
-            <div th:if="${scores != null}">
-                <div class="score-container">
-                    <span class="score-label">Accuracy:</span>
-                    <span class="score-value" th:text="${scores['Accuracy']} + '/25'"></span>
-                    <div class="bar-container">
-                        <div class="bar" th:style="'width:' + (${scores['Accuracy']} / 25.0) * 100 + '%'"></div>
+
+    <div class="section">
+        <div class="evaluation">
+            <h2>Your Summary Evaluation</h2>
+            <div class="evaluation-explanation">
+                <div th:if="${scores != null}">
+                    <div class="score-container">
+                        <span class="score-label">Accuracy:</span>
+                        <span class="score-value" th:text="${scores['Accuracy']} + '/25'"></span>
+                        <div class="bar-container">
+                            <div class="bar" th:style="'width:' + (${scores['Accuracy']} / 25.0) * 100 + '%'"></div>
+                        </div>
+                    </div>
+                    <p th:text="${accuracyExplanation}"></p>
+
+                    <div class="score-container">
+                        <span class="score-label">Brevity:</span>
+                        <span class="score-value" th:text="${scores['Brevity']} + '/25'"></span>
+                        <div class="bar-container">
+                            <div class="bar" th:style="'width:' + (${scores['Brevity']} / 25.0) * 100 + '%'"></div>
+                        </div>
+                    </div>
+                    <p th:text="${brevityExplanation}"></p>
+
+                    <div class="score-container">
+                        <span class="score-label">Clarity:</span>
+                        <span class="score-value" th:text="${scores['Clarity']} + '/25'"></span>
+                        <div class="bar-container">
+                            <div class="bar" th:style="'width:' + (${scores['Clarity']} / 25.0) * 100 + '%'"></div>
+                        </div>
+                    </div>
+                    <p th:text="${clarityExplanation}"></p>
+
+                    <div class="score-container">
+                        <span class="score-label">Comprehensiveness:</span>
+                        <span class="score-value" th:text="${scores['Comprehensiveness']} + '/25'"></span>
+                        <div class="bar-container">
+                            <div class="bar" th:style="'width:' + (${scores['Comprehensiveness']} / 25.0) * 100 + '%'"></div>
+                        </div>
+                    </div>
+                    <p th:text="${comprehensivenessExplanation}"></p>
+
+                    <div class="score-container">
+                        <span class="score-label">Total Score:</span>
+                        <span class="score-value" th:text="${scores['Accuracy'] + scores['Brevity'] + scores['Clarity'] + scores['Comprehensiveness']} + '/100'"></span>
                     </div>
                 </div>
-                <p th:text="${accuracyExplanation}"></p>
-                <div class="score-container">
-                    <span class="score-label">Brevity:</span>
-                    <span class="score-value" th:text="${scores['Brevity']} + '/25'"></span>
-                    <div class="bar-container">
-                        <div class="bar" th:style="'width:' + (${scores['Brevity']} / 25.0) * 100 + '%'"></div>
-                    </div>
+                <div th:if="${scores == null}">
+                    <p>No scores available.</p>
                 </div>
-                <p th:text="${brevityExplanation}"></p>
-                <div class="score-container">
-                    <span class="score-label">Clarity:</span>
-                    <span class="score-value" th:text="${scores['Clarity']} + '/25'"></span>
-                    <div class="bar-container">
-                        <div class="bar" th:style="'width:' + (${scores['Clarity']} / 25.0) * 100 + '%'"></div>
-                    </div>
-                </div>
-                <p th:text="${clarityExplanation}"></p>
-                <div class="score-container">
-                    <span class="score-label">Comprehensiveness:</span>
-                    <span class="score-value" th:text="${scores['Comprehensiveness']} + '/25'"></span>
-                    <div class="bar-container">
-                        <div class="bar" th:style="'width:' + (${scores['Comprehensiveness']} / 25.0) * 100 + '%'"></div>
-                    </div>
-                </div>
-                <p th:text="${comprehensivenessExplanation}"></p>
-                <div class="score-container">
-                    <span class="score-label">Total Score:</span>
-                    <span class="score-value" th:text="${scores['Accuracy'] + scores['Brevity'] + scores['Clarity'] + scores['Comprehensiveness']} + '/100'"></span>
-                </div>
-            </div>
-            <div th:if="${scores == null}">
-                <p>No scores available.</p>
             </div>
         </div>
+
+        <div class="chart-container">
+            <canvas id="evaluationChart" class="chart"></canvas>
+        </div>
     </div>
-    <canvas id="evaluationChart" width="400" height="200"></canvas>
-    <script>
-        const ctx = document.getElementById('evaluationChart').getContext('2d');
-        const evaluationChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Accuracy', 'Brevity', 'Clarity', 'Comprehensiveness'],
-                datasets: [{
-                    label: 'Scores out of 25',
-                    data: [
-                        /*[[${scores['Accuracy']}]], [[${scores['Brevity']}]], [[${scores['Clarity']}]], [[${scores['Comprehensiveness']}]]*/
-                        [[${scores['Accuracy']}]], [[${scores['Brevity']}]], [[${scores['Clarity']}]], [[${scores['Comprehensiveness']}]]
-                    ],
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(153, 102, 255, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(153, 102, 255, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 25
-                    }
+</div>
+
+<script>
+    const ctx = document.getElementById('evaluationChart').getContext('2d');
+    const evaluationChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Accuracy', 'Brevity', 'Clarity', 'Comprehensiveness'],
+            datasets: [{
+                label: 'Scores out of 25',
+                data: [
+                    [[${scores['Accuracy']}]],
+                    [[${scores['Brevity']}]],
+                    [[${scores['Clarity']}]],
+                    [[${scores['Comprehensiveness']}]]
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 25
                 }
             }
-        });
-    </script>
-    <a href="/" class="back-home">Back to Home</a>
-    <p th:if="${error}" th:text="${error}" style="color:red; text-align: center;"></p>
-</div>
+        }
+    });
+</script>
+
 </body>
 </html>
