@@ -9,7 +9,8 @@ public class Summary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Lob
+    @Column(columnDefinition="LONGTEXT")
     private String submittedSummary;
 
     @Column(nullable = false)
