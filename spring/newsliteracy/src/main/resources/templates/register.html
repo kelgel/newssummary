@@ -3,6 +3,7 @@
 <head>
     <title>Register</title>
     <style>
+        /* Basic styling for the body to center content vertically and horizontally */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -13,6 +14,7 @@
             align-items: center;
             height: 100vh;
         }
+        /* Styling for the container that holds the registration form */
         .container {
             background-color: #fff;
             padding: 20px;
@@ -21,21 +23,25 @@
             width: 100%;
             max-width: 400px.
         }
+        /* Styling for the heading of the registration form */
         h1 {
             color: #333;
             text-align: center;
             margin-bottom: 20px;
         }
+        /* Flexbox layout for the form elements, aligning them vertically */
         form {
             display: flex;
             flex-direction: column.
         }
+        /* Styling for input fields within the form */
         input {
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+        /* Styling for the submit button */
         button {
             padding: 10px;
             border: none;
@@ -44,21 +50,56 @@
             color: #fff;
             cursor: pointer.
         }
+         /* Hover effect for the submit button */
         button:hover {
             background-color: #0056b3.
         }
     </style>
 </head>
 <body>
+<!-- Main container for the registration form -->
 <div class="container">
     <h1>Register</h1>
+    <!-- Registration form with Thymeleaf CSRF token for security -->
     <form method="post" action="/register">
+        <!-- Hidden input for CSRF token, automatically populated by Thymeleaf -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <!-- Input field for the username -->
         <input type="text" name="username" placeholder="Username" required>
+        <!-- Input field for the password -->
         <input type="password" name="password" placeholder="Password" required>
+        <!-- Submit button for the form -->
         <button type="submit">Register</button>
     </form>
+    <!-- Link to the login page for users who already have an account -->
     <p>Already have an account? <a href="/login">Login here</a></p>
 </div>
 </body>
 </html>
+
+<!--
+ CSRF Token for Security:
+    -------------------------
+    CSRF (Cross-Site Request Forgery) is a type of attack that tricks the user into submitting a malicious request.
+    It can lead to unauthorized actions being performed on behalf of the user without their consent.
+
+    To prevent this type of attack, Spring Security automatically adds a CSRF token to all forms that are     submitted via POST, PUT, DELETE, etc. This token is unique for each session and is required for the server to process the request.
+
+    The CSRF token is passed as a hidden input field in the form. The server checks this token against the  session to ensure that the request is legitimate and comes from the authenticated user, rather than an attacker.
+
+    The 'th:name' attribute binds the token's name dynamically, and the 'th:value' binds the token's value.
+    These attributes use Thymeleaf syntax to inject the token into the form.
+-->
+<!--
+보안을 위한 CSRF 토큰:
+    ------------
+    CSRF(Cross-Site Request Forgery)는 사용자를 속여 악의적인 요청을 제출하도록 하는 공격 유형입니다.
+    이로 인해 사용자의 동의 없이 사용자를 대신하여 승인되지 않은 작업이 수행될 수 있습니다.
+
+    이러한 유형의 공격을 방지하기 위해 Spring Security는 POST, PUT, DELETE 등을 통해 제출되는 모든 양식에 CSRF 토큰을 자동으로 추가합니다. 이 토큰은 각 세션마다 고유하며 서버가 요청을 처리하는 데 필요합니다.
+
+    CSRF 토큰은 양식의 숨겨진 입력 필드로 전달됩니다. 서버는 세션과 비교하여 이 토큰을 확인하여 요청이 적법하고 공격자가 아닌 인증된 사용자로부터 오는지 확인합니다.
+
+    'th:name' 속성은 토큰 이름을 동적으로 바인딩하고 'th:value'는 토큰 값을 바인딩합니다.
+    이러한 속성은 Thymeleaf 구문을 사용하여 토큰을 양식에 삽입합니다.
+-->

@@ -5,6 +5,7 @@
     <title>View Summary</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Basic styling for the body to center content vertically and horizontally */
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f8f9fa;
@@ -15,6 +16,7 @@
             align-items: center;
             min-height: 100vh;
         }
+         /* Container for the summary details */
         .container {
             background-color: #ffffff;
             padding: 20px;
@@ -23,20 +25,24 @@
             width: 90%;
             max-width: 800px;
         }
+        /* Styling for the main heading */
         h1 {
             color: #343a40;
             text-align: center;
             margin-bottom: 30px;
             font-size: 2em;
         }
+        /* Styling for the paragraph text */
         p {
             color: #495057;
             line-height: 1.6;
             margin-bottom: 20px;
         }
+        /* Styling for strong text within paragraphs */
         strong {
             color: #212529;
         }
+        /* Styling for the back to summaries button */
         .back-home {
             display: block;
             text-align: center;
@@ -54,12 +60,16 @@
     </style>
 </head>
 <body>
+<!-- Main container for the summary details -->
 <div class="container">
     <h1>Summary Details</h1>
+    <!-- Display the submitted summary -->
     <p><strong>Submitted Summary:</strong></p>
     <p th:text="${summary.submittedSummary}"></p>
+    <!-- Display the original article -->
     <p><strong>Original Article:</strong></p>
     <p th:text="${summary.originalArticle}"></p>
+    <!-- Link to navigate back to the user's summaries -->
     <a href="/mySummaries" class="back-home">Back to My Summaries</a>
 </div>
 </body>

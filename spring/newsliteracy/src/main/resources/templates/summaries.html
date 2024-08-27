@@ -4,6 +4,7 @@
     <title>My Summaries</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Basic styling for the body to center content vertically and horizontally */
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #f8f9fa;
@@ -14,6 +15,7 @@
             align-items: center;
             min-height: 100vh;
         }
+        /* Container for the list of summaries */
         .container {
             background-color: #ffffff;
             padding: 20px;
@@ -22,32 +24,39 @@
             width: 90%;
             max-width: 1000px;
         }
+        /* Styling for the main heading */
         h1 {
             color: #343a40;
             text-align: center;
             margin-bottom: 30px;
             font-size: 2em;
         }
+        /* Styling for the table displaying the summaries */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 30px;
         }
+         /* Border and spacing for table cells */
         table, th, td {
             border: 1px solid #dee2e6;
         }
+         /* Padding and alignment for table headers and cells */
         th, td {
             padding: 12px 15px;
             text-align: left;
         }
+        /* Background color for the table header */
         th {
             background-color: #e9ecef;
             color: #495057;
             font-weight: bold;
         }
+        /* Hover effect for table rows */
         tr:hover {
             background-color: #f1f3f5;
         }
+        /* Styling for action buttons in the table */
         .action-buttons a {
             margin-right: 15px;
             text-decoration: none;
@@ -57,9 +66,11 @@
         .action-buttons a:hover {
             text-decoration: underline;
         }
+        /* Inline form styling for delete button */
         .action-buttons form {
             display: inline;
         }
+        /* Styling for the delete button */
         .action-buttons button {
             background-color: #dc3545;
             color: white;
@@ -72,6 +83,7 @@
         .action-buttons button:hover {
             background-color: #c82333;
         }
+         /* Styling for the back to home button */
         .back-home {
             display: block;
             text-align: center;
@@ -88,11 +100,14 @@
     </style>
 </head>
 <body>
+<!-- Main container for the summaries list -->
 <div class="container">
     <h1>My Summaries</h1>
+    <!-- Table displaying the list of summaries -->
     <table>
         <thead>
         <tr>
+            <!-- Table headers -->
             <th>Original Article</th>
             <th>Submitted Summary</th>
             <th>Scores (out of 25)</th>
@@ -101,9 +116,13 @@
         </tr>
         </thead>
         <tbody>
+        <!-- Loop through each summary and display its details -->
         <tr th:each="summary : ${summaries}">
+            <!-- Link to the original article -->
             <td><a th:href="${summary.originalUrl}" th:text="${summary.originalArticle}" target="_blank"></a></td>
+            <!-- Display the submitted summary text -->
             <td th:text="${summary.submittedSummary}"></td>
+            <!-- Display individual scores for each criterion -->
             <td>
                 <div>
                     Accuracy: <span th:text="${summary.accuracy}"></span><br>
@@ -112,7 +131,9 @@
                     Comprehensiveness: <span th:text="${summary.comprehensiveness}"></span>
                 </div>
             </td>
+            <!-- Display the total score -->
             <td th:text="${summary.totalScore}"></td>
+            <!-- Action buttons for editing and deleting the summary -->
             <td class="action-buttons">
                 <a th:href="@{/summary/edit(id=${summary.id})}">Edit</a>
                 <form th:action="@{/summary/delete}" method="post">
@@ -123,6 +144,7 @@
         </tr>
         </tbody>
     </table>
+    <!-- Link to navigate back to the home page -->
     <a href="/" class="back-home">Back to Home</a>
 </div>
 </body>

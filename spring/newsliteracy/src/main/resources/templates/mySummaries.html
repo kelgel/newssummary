@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <title>My Summaries</title>
     <style>
+        /* Basic styling for the body */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 20px;
         }
+        /* Container for the main content */
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -18,15 +20,18 @@
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
+        /* Styling for the main heading */
         h1 {
             color: #333;
             text-align: center;
             margin-bottom: 20px;
         }
+        /* Styling for the list of summaries */
         .summary-list {
             list-style: none;
             padding: 0;
         }
+        /* Styling for each summary item */
         .summary-item {
             border: 1px solid #ddd;
             border-radius: 10px;
@@ -34,14 +39,17 @@
             margin-bottom: 15px;
             background-color: #f9f9f9;
         }
+         /* Styling for the summary headings */
         .summary-item h3 {
             color: #007bff;
             margin-bottom: 10px;
         }
+        /* Styling for the summary text */
         .summary-item p {
             color: #555;
             margin-bottom: 10px;
         }
+        /* Styling for the message when no summaries are available */
         .no-summaries {
             text-align: center;
             color: #888;
@@ -50,18 +58,24 @@
     </style>
 </head>
 <body>
+<!-- Main container for the summaries list -->
 <div class="container">
     <h1>My Summaries</h1>
+    <!-- Check if summaries exist, and display them in a list -->
     <div th:if="${summaries}">
         <ul class="summary-list">
+            <!-- Loop through each summary and display its content -->
             <li class="summary-item" th:each="summary : ${summaries}">
                 <h3>Original Article</h3>
+                <!-- Display the original article text -->
                 <p th:text="${summary.originalArticle}"></p>
                 <h3>Submitted Summary</h3>
+                <!-- Display the submitted summary text -->
                 <p th:text="${summary.submittedSummary}"></p>
             </li>
         </ul>
     </div>
+    <!-- Message to display if no summaries are found -->
     <div th:if="${!summaries}" class="no-summaries">
         <p>No summaries found.</p>
     </div>

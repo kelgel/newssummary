@@ -3,6 +3,7 @@
 <head>
     <title>Login</title>
     <style>
+        /* Basic styling for the body to ensure the content is centered vertically and horizontally */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f9;
@@ -13,6 +14,7 @@
             align-items: center;
             height: 100vh;
         }
+         /* Styling for the container holding the login form */
         .login-container {
             background-color: #fff;
             padding: 40px;
@@ -21,19 +23,23 @@
             width: 100%;
             max-width: 400px;
         }
+        /* Styling for the heading of the login form */
         h1 {
             text-align: center;
             color: #333;
             margin-bottom: 20px;
         }
+         /* Flexbox layout for the form to align its elements vertically */
         form {
             display: flex;
             flex-direction: column;
         }
+        /* Styling for the form labels */
         label {
             margin-bottom: 5px;
             color: #333;
         }
+        /* Styling for the input fields */
         input {
             padding: 10px;
             margin-bottom: 20px;
@@ -41,6 +47,7 @@
             border-radius: 5px;
             outline: none;
         }
+         /* Styling for the login button */
         button {
             padding: 10px;
             background-color: #007bff;
@@ -50,14 +57,17 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
+        /* Hover effect for the login button */
         button:hover {
             background-color: #0056b3;
         }
+        /* Styling for error messages displayed when login fails */
         .error-message {
             color: red;
             text-align: center;
             margin-bottom: 20px;
         }
+         /* Styling for logout messages displayed when the user logs out */
         .logout-message {
             color: green;
             text-align: center;
@@ -66,21 +76,28 @@
     </style>
 </head>
 <body>
+<!-- Container for the login form -->
 <div class="login-container">
     <h1>Login</h1>
+    <!-- Form for user login, using Thymeleaf syntax for action -->
     <form th:action="@{/login}" method="post">
+        <!-- Input for username -->
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" placeholder="Enter your username" required/>
 
+        <!-- Input for password -->
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" placeholder="Enter your password" required/>
 
+        <!-- Submit button for the form -->
         <button type="submit">Login</button>
     </form>
 
+    <!-- Display an error message if login fails -->
     <div th:if="${param.error}" class="error-message">
         Invalid username or password.
     </div>
+    <!-- Display a logout message if the user has successfully logged out -->
     <div th:if="${param.logout}" class="logout-message">
         You have been logged out successfully.
     </div>
